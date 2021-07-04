@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AlertService } from "./services/alert.service";
+import { AuthService } from "./services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-root',
@@ -9,10 +10,10 @@ import { AlertService } from "./services/alert.service";
 export class AppComponent {
     title = 'air-company';
 
-    constructor(private alertService: AlertService) {
+    constructor(private router: Router, private authService: AuthService) {
     }
 
-    alert() {
-        this.alertService.success("Successful!")
+    loggedIn(): boolean {
+        return this.authService.userData !== null;
     }
 }

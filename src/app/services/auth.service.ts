@@ -15,13 +15,15 @@ export class AuthService {
     private readonly updateUrl: string = 'http://localhost:8080/user'
 
     private readonly userSubject: BehaviorSubject<UserData>;
-    private readonly loggedUser: Observable<UserData>;
+    readonly loggedUser: Observable<UserData>;
 
     constructor(private http: HttpClient, private router: Router) {
         const userData: string = <string>localStorage.getItem('user');
         this.userSubject = new BehaviorSubject<UserData>(JSON.parse(userData))
         this.loggedUser = this.userSubject.asObservable();
     }
+
+    public get userData(): UserData { return this.userSubject.getValue() }
 
     register(username: string, password: string, type: UserType): Observable<UserForm> {
         const userForm: UserForm = { username, password, type };
@@ -41,7 +43,7 @@ export class AuthService {
                 localStorage.setItem('user', userJson);
                 this.userSubject.next(user);
                 return user;
-            }))
+            }));
     }
 
     logOut(): void {

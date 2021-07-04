@@ -1,5 +1,10 @@
-<app-alert></app-alert>
+<app-header *ngIf="loggedIn()"></app-header>
 
-<button class="btn btn-outline-dark" (click)="alert()">Alert!</button>
+<div class="container">
+    <div class="col col-lg-8 offset-lg-2 mt-4">
+        <app-alert></app-alert>
+        <router-outlet></router-outlet>
+    </div>
+</div>
 
 <app-footer class="fixed-bottom"></app-footer>
