@@ -3,6 +3,7 @@
     padding: 22px;
     font-size: 14pt;
     color: white;
+    background-size: cover;
 }
 
 .header-decor {
@@ -12,3 +13,20 @@
 .header-item {
     margin-inline: 10px;
 }
+
+.btn.btn-logout {
+    color: white;
+    transition-property: color;
+    transition-duration: 300ms;
+}
+
+.btn.btn-logout:hover {
+    color: gold;
+    transition-property: color;
+    transition-duration: 100ms;
+}
+
+@media all {
+
+}
+

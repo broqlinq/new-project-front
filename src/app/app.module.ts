@@ -12,11 +12,14 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { TicketTableComponent } from './components/ticket-table/ticket-table.component';
 import { AuthGuard } from "./util/auth.guard";
 import { HeaderComponent } from './components/header/header.component';
+import { TicketsComponent } from './components/tickets/tickets.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: 'tickets', component: TicketTableComponent, canActivate: [AuthGuard] },
-    { path: '**', redirectTo: '/tickets' }
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
+    { path: '**', redirectTo: '/home' }
 ]
 
 @NgModule({
@@ -26,7 +29,9 @@ const routes: Routes = [
         LoginComponent,
         AlertComponent,
         TicketTableComponent,
-        HeaderComponent
+        HeaderComponent,
+        TicketsComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,

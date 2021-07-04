@@ -1,0 +1,11 @@
+
+<div class="d-flex justify-content-between">
+    <button class="btn btn-outline-dark ml-4 mb-2"
+            (click)="previous()"
+    >Previous</button>
+    <span>{{currentPage + 1}} of {{totalPages}}</span>
+    <button class="btn btn-outline-dark mr-4 mb-2"
+            (click)="next()"
+    >Next</button>
+</div>
+<app-ticket-table [forCompany]="false" [tickets]="tickets"></app-ticket-table>

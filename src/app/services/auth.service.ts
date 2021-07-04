@@ -30,6 +30,11 @@ export class AuthService {
         return this.http.post<UserForm>(this.registerUrl, userForm);
     }
 
+    isAdmin(): boolean {
+        let type = UserType[UserType.ADMIN];
+        return this.userData.type.toString() === type;
+    }
+
     update(username: string, password: string, type: UserType): Observable<UserForm> {
         const userForm: UserForm = { username, password, type };
         return this.http.put<UserForm>(this.updateUrl, userForm);

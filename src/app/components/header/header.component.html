@@ -1,8 +1,8 @@
-<div class="header container-fluid header-decor">
-    <div class="col-lg-6 offset-lg-3 d-inline-flex justify-content-end">
+<div class="header container-fluid header-decor fixed-top">
+    <div class="d-flex justify-content-end">
         <span class="header-item align-self-center" style="font-size: 12pt">{{user?.username}}</span>
         <span class="header-item align-self-center" style="font-size: 12pt">({{user?.type}})</span>
         <span class="header-item align-self-center">|</span>
-        <a class="btn btn-link" (click)="logOut()">Log Out</a>
+        <a class="btn btn-link btn-logout" (click)="logOut()">Log Out</a>
     </div>
 </div>
