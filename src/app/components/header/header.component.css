@@ -1,0 +1,14 @@
+.header {
+    background-color: #2b4979;
+    padding: 22px;
+    font-size: 14pt;
+    color: white;
+}
+
+.header-decor {
+    border-bottom: 5px solid goldenrod;
+}
+
+.header-item {
+    margin-inline: 10px;
+}
