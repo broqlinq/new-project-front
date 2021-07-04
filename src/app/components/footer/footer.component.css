@@ -1,0 +1,10 @@
+.footer {
+    background-color: #2b4979;
+    padding: 22px;
+    font-size: 16pt;
+    color: white;
+}
+
+.footer-decor {
+    border-top: 5px solid goldenrod;
+}
