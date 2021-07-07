@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Page } from "../models/page";
 import { map } from "rxjs/operators";
 import { TicketFilter } from "../models/ticket-filter";
+import { TicketForm } from "../models/ticket-form";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,11 @@ export class TicketService {
 
     constructor(private http: HttpClient) {
         this.tickets = new BehaviorSubject<Ticket[]>([]);
+    }
+
+    createTicket(ticket: TicketForm): Observable<Ticket> {
+        console.log(ticket);
+        return this.http.post<Ticket>(this.baseUrl + '/create', ticket);
     }
 
     fetchTickets(page: number, count: number, company: string | null, oneWay: boolean | null): Observable<Page<Ticket>> {

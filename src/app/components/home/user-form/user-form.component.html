@@ -1,33 +1,33 @@
 <div>
     <h3 class="mt-4">Create user</h3>
     <form [formGroup]="form">
-    <span class="mat-form-field-flex">
-        <mat-form-field appearance="outline">
-            <mat-label>Username</mat-label>
-            <input formControlName="username" matInput>
-            <mat-error>Username is required</mat-error>
-        </mat-form-field>
-    </span>
         <span class="mat-form-field-flex">
-        <mat-form-field appearance="outline">
-            <mat-label>Password</mat-label>
-            <input formControlName="password" [type]="hide ? 'password' : 'text'" matInput>
-            <mat-error>Password must be 6-32 characters long, containing only letters and at least one digit</mat-error>
-            <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button matSuffix>
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-        </mat-form-field>
-    </span>
+            <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input formControlName="username" matInput required>
+                <mat-error>Username is required</mat-error>
+            </mat-form-field>
+        </span>
+        <span class="mat-form-field-flex">
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input formControlName="password" [type]="hide ? 'password' : 'text'" matInput required>
+                <mat-error>Password must be 6-32 characters long, containing only letters and at least one digit</mat-error>
+                <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button matSuffix>
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </span>
         <span class="mat-form-field-flex mt-4">
-        <mat-form-field appearance="outline">
-            <mat-label>User type</mat-label>
-            <mat-select formControlName="userType" value="user">
-                <mat-option value="admin">Admin</mat-option>
-                <mat-option value="user">User</mat-option>
-            </mat-select>
-            <mat-error>User type is required</mat-error>
-        </mat-form-field>
-        <button (click)="createUser()" mat-stroked-button color="primary" class="ml-5">Create</button>
-    </span>
+            <mat-form-field appearance="outline">
+                <mat-label>User type</mat-label>
+                <mat-select formControlName="userType" value="user" required>
+                    <mat-option value="admin">Admin</mat-option>
+                    <mat-option value="user">User</mat-option>
+                </mat-select>
+                <mat-error>User type is required</mat-error>
+            </mat-form-field>
+            <button [disabled]="!form.valid" (click)="createUser()" mat-stroked-button color="primary" class="ml-5">Create</button>
+        </span>
     </form>
 </div>

@@ -1,0 +1,75 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { TicketService } from "../../../services/ticket.service";
+import { Company } from "../../../models/company";
+import { Flight } from "../../../models/flight";
+import { FlightService } from "../../../services/flight.service";
+import { CompanyService } from "../../../services/company.service";
+import { AlertService } from "../../../services/alert.service";
+import { Ticket } from "../../../models/ticket";
+import { TicketForm } from "../../../models/ticket-form";
+
+@Component({
+    selector: 'app-ticket-form',
+    templateUrl: './ticket-form.component.html',
+    styleUrls: ['./ticket-form.component.css']
+})
+export class TicketFormComponent implements OnInit {
+    form: FormGroup;
+    companies: Company[] = [];
+    flights: Flight[] = [];
+    private controlConfig = {
+        departureDate: [''],
+        returnDate: [''],
+        count: ['', Validators.min(1)],
+        companyId: [''],
+        flightId: [''],
+    };
+
+    constructor(
+        private alertService: AlertService,
+        private formBuilder: FormBuilder,
+        private ticketService: TicketService,
+        private flightService: FlightService,
+        private companyService: CompanyService) {
+        this.form = formBuilder.group(this.controlConfig);
+    }
+
+    ngOnInit(): void {
+        this.loadCompanies()
+        this.loadFlights()
+    }
+
+    get f() { return this.form }
+
+    loadCompanies(): void {
+        this.companyService
+            .fetchAllCompanies()
+            .subscribe(companies => this.companies = companies,
+                    error => this.alertService.error(`Error fetching company list: ${error.message}`));
+    }
+
+    loadFlights(): void {
+        this.flightService
+            .fetchAllFlights()
+            .subscribe(flights => this.flights = flights,
+                error => this.alertService.error(`Error fetching flight list: ${error.message}`));
+    }
+
+    createTicket(): void {
+        const departureDate: Date = this.form.controls.departureDate.value;
+        const returnDate: Date = this.form.controls.returnDate.value;
+        const companyId: number = this.form.controls.companyId.value;
+        const flightId: number = this.form.controls.flightId.value;
+        const count: number = this.form.controls.count.value;
+        const ticket: TicketForm = { departureDate, returnDate, companyId, flightId, count };
+        console.log(ticket);
+        this.ticketService
+            .createTicket(ticket)
+            .subscribe(_ => {
+                this.alertService.success('Successfully created ticket!', { autoClose: true })
+                } , error => {
+                this.alertService.error(`Failed to create ticket: ${error.message}`)
+            });
+    }
+}

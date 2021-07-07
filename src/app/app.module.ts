@@ -34,7 +34,7 @@ import { RequestInterceptor } from "./util/request.interceptor";
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
     { path: '**', component: NotFoundComponent }
 ]

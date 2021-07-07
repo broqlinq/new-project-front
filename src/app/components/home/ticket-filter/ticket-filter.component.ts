@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { TicketFilter } from "../../../models/ticket-filter";
+import { CityService } from "../../../services/city.service";
+import { AlertService } from "../../../services/alert.service";
 
 @Component({
     selector: 'app-ticket-filter',
@@ -13,7 +15,9 @@ export class TicketFilterComponent implements OnInit {
     @Output() onFilter: EventEmitter<TicketFilter> = new EventEmitter<TicketFilter>();
 
     constructor(
-        private formBuilder: FormBuilder
+        private alertService: AlertService,
+        private formBuilder: FormBuilder,
+        private cityService: CityService
     ) {
         this.form = formBuilder.group({
             origin: [],
@@ -25,6 +29,13 @@ export class TicketFilterComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.cityService
+            .fetchAllCities()
+            .subscribe(cities => {
+                this.cities = cities.map(c => c.name);
+            }, error => {
+                this.alertService.error(`Failed to fetch cities: ${error.message}`)
+            });
     }
 
     filter(): void {
