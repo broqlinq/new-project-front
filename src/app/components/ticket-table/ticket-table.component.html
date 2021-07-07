@@ -1,4 +1,4 @@
-<div class="table-responsive-md">
+<div class="table-sm table-responsive-md">
     <table class="table table-hover mw-100">
         <thead>
         <tr *ngIf="forCompany">
@@ -24,8 +24,8 @@
             <td>{{t.flight.origin}}</td>
             <td>{{t.flight.destination}}</td>
             <td>
-                <span *ngIf="t.returnDate !== null" class="material-icons true">check_circle</span>
-                <span *ngIf="t.returnDate === null" class="material-icons false">cancel</span>
+                <span *ngIf="t.returnDate === null" class="material-icons true">check_circle</span>
+                <span *ngIf="t.returnDate !== null" class="material-icons false">cancel</span>
             </td>
             <td>{{t.count}}</td>
             <td *ngIf="isAdmin" class="d-flex">

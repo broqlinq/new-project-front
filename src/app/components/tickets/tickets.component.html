@@ -3,9 +3,10 @@
     <button class="btn btn-outline-dark ml-4 mb-2"
             (click)="previous()"
     >Previous</button>
-    <span>{{currentPage + 1}} of {{totalPages}}</span>
+    <span *ngIf="totalPages">page {{currentPage + 1}} of {{totalPages}}</span>
+    <span *ngIf="!totalPages">page 0 of 0</span>
     <button class="btn btn-outline-dark mr-4 mb-2"
             (click)="next()"
     >Next</button>
 </div>
-<app-ticket-table [forCompany]="false" [tickets]="tickets"></app-ticket-table>
+<app-ticket-table [forCompany]="false" [isAdmin]="isAdmin" [tickets]="tickets"></app-ticket-table>

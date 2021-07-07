@@ -27,6 +27,7 @@ export class AuthService {
 
     register(username: string, password: string, type: UserType): Observable<UserForm> {
         const userForm: UserForm = { username, password, type };
+        // console.log(JSON.stringify(userForm));
         return this.http.post<UserForm>(this.registerUrl, userForm);
     }
 
@@ -55,6 +56,6 @@ export class AuthService {
         localStorage.removeItem('user');
         // @ts-ignore
         this.userSubject.next(null);
-        this.router.navigate(['']);
+        this.router.navigate(['login']);
     }
 }

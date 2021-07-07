@@ -4,6 +4,7 @@ import { Ticket } from "../models/ticket";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Page } from "../models/page";
 import { map } from "rxjs/operators";
+import { TicketFilter } from "../models/ticket-filter";
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +29,33 @@ export class TicketService {
             .pipe(map(page => {
                 // console.log(JSON.stringify(page));
                 this.tickets.next(page.content);
+                return page;
+            }));
+    }
+
+    filterTickets(page: number, count: number, company: string | null, filter: TicketFilter): Observable<Page<Ticket>> {
+        let params = new HttpParams({fromObject: {page, count}})
+        if (company) {
+            params = params.set('company', company)
+        }
+        if (filter.oneWay !== undefined && filter.oneWay !== null) {
+            params = params.set('oneWay', filter.oneWay);
+        }
+        if (filter.origin) {
+            params = params.set('origin', filter.origin);
+        }
+        if (filter.destination) {
+            params = params.set('destination', filter.destination);
+        }
+        if (filter.departureDate) {
+            params = params.set('departureDate', filter.departureDate.toDateString());
+        }
+        if (filter.returnDate) {
+            params = params.set('returnDate', filter.returnDate.toDateString());
+        }
+        return this.http.get<Page<Ticket>>(this.baseUrl + '/filter', { params })
+            .pipe(map(page => {
+                // console.log(JSON.stringify(page));
                 return page;
             }));
     }

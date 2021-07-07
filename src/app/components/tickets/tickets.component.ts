@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from "../../services/auth.service";
 import { TicketService } from "../../services/ticket.service";
 import { Ticket } from "../../models/ticket";
 import { AlertService } from "../../services/alert.service";
+import { UserType } from "../../models/user-data";
+import { TicketFilter } from "../../models/ticket-filter";
 
 @Component({
     selector: 'app-tickets',
@@ -10,10 +12,12 @@ import { AlertService } from "../../services/alert.service";
     styleUrls: ['./tickets.component.css']
 })
 export class TicketsComponent implements OnInit {
-    readonly maxTickets: number = 2;
+    @Input() ticketFilter: TicketFilter = {} ;
+    readonly maxTickets: number = 5;
     currentPage: number = 0;
     totalPages: number = 1;
     tickets: Ticket[] = [];
+    isAdmin: boolean = false;
 
     constructor(
         private alertService: AlertService,
@@ -21,18 +25,29 @@ export class TicketsComponent implements OnInit {
         private ticketService: TicketService) {}
 
     ngOnInit(): void {
-        this.fetchTickets();
+        const type = UserType[UserType.ADMIN];
+        const user = this.authService.userData;
+        this.isAdmin = user.type.toString() === type;
+        this.filterTickets(this.ticketFilter);
     }
 
-    fetchTickets(): void {
+    filterTickets(filter: TicketFilter): void {
         this.ticketService
-            .fetchTickets(this.currentPage, this.maxTickets, null, null)
+            .filterTickets(this.currentPage, this.maxTickets, null, filter)
             .subscribe(page => {
                 this.tickets = page.content;
                 this.totalPages = page.totalPages;
+                if (page.totalPages === 0) {
+                    this.currentPage = 0;
+                }
             }, _ => {
                 this.alertService.error('Failed to load tickets');
             });
+    }
+
+    setFilter(filter: TicketFilter): void {
+        this.ticketFilter = filter;
+        this.filterTickets(this.ticketFilter);
     }
 
     next(): void {
@@ -42,7 +57,7 @@ export class TicketsComponent implements OnInit {
         }
 
         this.currentPage++;
-        this.fetchTickets();
+        this.filterTickets(this.ticketFilter);
     }
 
     previous(): void {
@@ -52,6 +67,6 @@ export class TicketsComponent implements OnInit {
         }
 
         this.currentPage--;
-        this.fetchTickets();
+        this.filterTickets(this.ticketFilter);
     }
 }

@@ -10,10 +10,10 @@ import { AuthService } from "../../services/auth.service";
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    private readonly passRegex: string = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,32}$";
     form: FormGroup;
     loading = false;
     submitted = false;
+    private readonly passRegex: string = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,32}$";
 
     constructor(
         private formBuilder: FormBuilder,
@@ -28,12 +28,12 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-
+    get f() {
+        return this.form?.controls;
     }
 
-    // convenience getter for easy access to form fields
-    get f() { return this.form?.controls; }
+    ngOnInit() {
+    }
 
     onSubmit() {
         this.submitted = true;
@@ -49,11 +49,19 @@ export class LoginComponent implements OnInit {
             // .pipe(first())
             .subscribe({
                 next: () => {
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
+                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || `/home`;
                     this.router.navigateByUrl(returnUrl);
                 },
-                error: _ => {
-                    this.alertService.error('Login failed. Check your credentials.');
+                error: err => {
+                    switch (err.status) {
+                        case 400:
+                        case 401:
+                            this.alertService.error('Login failed. Check your credentials.');
+                            break;
+                        default:
+                            this.alertService.error('Login failed. Unexpected error occurred while trying to contact server.')
+                    }
+
                     this.loading = false;
                 }
             });
