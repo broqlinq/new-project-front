@@ -29,8 +29,8 @@
             </td>
             <td>{{t.count}}</td>
             <td *ngIf="isAdmin" class="d-flex">
-                <button class="btn btn-sm btn-outline-warning mx-2">Edit</button>
-                <button class="btn btn-sm btn-outline-danger mx-2">Delete</button>
+                <button class="btn btn-sm btn-outline-warning mx-2" (click)="editTicket(t)">Edit</button>
+                <button class="btn btn-sm btn-outline-danger mx-2" (click)="deleteTicket(t)">Delete</button>
             </td>
             <td *ngIf="!isAdmin" class="d-flex">
                 <button class="btn btn-sm btn-outline-info">Book</button>

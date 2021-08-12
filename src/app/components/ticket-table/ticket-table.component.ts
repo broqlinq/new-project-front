@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ticket } from "../../models/ticket";
+import { Router } from "@angular/router";
+import { TicketService } from "../../services/ticket.service";
+import { AlertService } from "../../services/alert.service";
 
 @Component({
     selector: 'app-ticket-table',
@@ -12,10 +15,27 @@ export class TicketTableComponent implements OnInit {
     @Input() forCompany: boolean = false;
     @Input() company: string = '';
 
-    constructor() {
+    @Output() ticketDeleted: EventEmitter<Ticket> = new EventEmitter<Ticket>();
+
+    constructor(
+        private router: Router,
+        private alertService: AlertService,
+        private ticketService: TicketService) {
     }
 
     ngOnInit(): void {
     }
 
+    editTicket(ticket: Ticket): void {
+        this.router.navigate([`ticket/${ticket.id}`]);
+    }
+
+    deleteTicket(ticket: Ticket): void {
+        this.ticketService.deleteTicket(ticket.id)
+            .subscribe(ticket => {
+                this.ticketDeleted.emit(ticket);
+            }, err => {
+                this.alertService.warn(`Failed to delete ticket: ${err.error}`, { autoClose: true });
+            })
+    }
 }

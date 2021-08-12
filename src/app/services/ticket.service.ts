@@ -6,6 +6,7 @@ import { Page } from "../models/page";
 import { map } from "rxjs/operators";
 import { TicketFilter } from "../models/ticket-filter";
 import { TicketForm } from "../models/ticket-form";
+import { TicketUpdateForm } from "../models/ticket-update-form";
 
 @Injectable({
     providedIn: 'root'
@@ -18,13 +19,27 @@ export class TicketService {
         this.tickets = new BehaviorSubject<Ticket[]>([]);
     }
 
+    getTicket(id: number): Observable<Ticket> {
+        return this.http.get<Ticket>(this.baseUrl + `/${id}`);
+    }
+
     createTicket(ticket: TicketForm): Observable<Ticket> {
         console.log(ticket);
         return this.http.post<Ticket>(this.baseUrl + '/create', ticket);
     }
 
+    updateTicket(ticket: TicketUpdateForm): Observable<Ticket> {
+        console.log(ticket);
+        return this.http.put<Ticket>(this.baseUrl, ticket);
+    }
+
+    deleteTicket(id: number): Observable<Ticket> {
+        let params = new HttpParams({ fromObject: { id } });
+        return this.http.delete<Ticket>(this.baseUrl, { params })
+    }
+
     fetchTickets(page: number, count: number, company: string | null, oneWay: boolean | null): Observable<Page<Ticket>> {
-        let params = new HttpParams({fromObject: {page, count}})
+        let params = new HttpParams({ fromObject: { page, count } })
         if (company !== null) {
             params = params.set('company', company)
         }
@@ -40,7 +55,7 @@ export class TicketService {
     }
 
     filterTickets(page: number, count: number, company: string | null, filter: TicketFilter): Observable<Page<Ticket>> {
-        let params = new HttpParams({fromObject: {page, count}})
+        let params = new HttpParams({ fromObject: { page, count } })
         if (company) {
             params = params.set('company', company)
         }

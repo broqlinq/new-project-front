@@ -31,10 +31,14 @@ import { TicketFormComponent } from './components/home/ticket-form/ticket-form.c
 import { MatIconModule } from "@angular/material/icon";
 import { ErrorInterceptor } from "./util/error.interceptor";
 import { RequestInterceptor } from "./util/request.interceptor";
+import { TicketComponent } from './components/ticket/ticket.component';
+import { AdminGuard } from "./util/admin.guard";
 
 const routes: Routes = [
+    { path: '', pathMatch: 'full', redirectTo: '/login' },
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'ticket/:id', component: TicketComponent, canActivate: [AuthGuard, AdminGuard]},
     { path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
     { path: '**', component: NotFoundComponent }
 ]
@@ -52,7 +56,8 @@ const routes: Routes = [
         TicketFilterComponent,
         HomeComponent,
         UserFormComponent,
-        TicketFormComponent
+        TicketFormComponent,
+        TicketComponent
     ],
     imports: [
         BrowserModule,

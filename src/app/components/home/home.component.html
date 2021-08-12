@@ -7,7 +7,7 @@
             <app-user-form></app-user-form>
         </mat-tab>
         <mat-tab label="Tickets">
-            <app-ticket-form></app-ticket-form>
+            <app-ticket-form (ticketCreated)="updateTable()"></app-ticket-form>
         </mat-tab>
     </mat-tab-group>
 </div>

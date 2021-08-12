@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 class="mt-4">Create ticket</h3>
+    <h3 class="mt-4">Edit ticket</h3>
     <form [formGroup]="form">
         <div class="row">
             <div class="col-md-6">
@@ -36,7 +36,7 @@
                 <div class="mat-form-field-flex">
                     <mat-form-field appearance="outline">
                         <mat-label>Flight</mat-label>
-                        <mat-select formControlName="flightId" required>
+                        <mat-select formControlName="flightId" required >
                             <mat-option *ngFor="let flight of flights"
                                         [value]="flight.id">{{flight.id + ': ' + flight.origin + ' to ' + flight.destination}}
                             </mat-option>
@@ -48,13 +48,21 @@
         </div>
         <mat-form-field appearance="outline">
             <mat-label>Available tickets</mat-label>
-            <input type="number" min="1" formControlName="count" matInput required>
+            <input formControlName="count" matInput min="1" required type="number">
             <mat-error>Ticket count is required</mat-error>
         </mat-form-field>
-        <button [disabled]="!form.valid"
-                mat-stroked-button
-                color="primary"
-                class="mx-5"
-                (click)="createTicket()">Create ticket</button>
+        <div class="col-md-6 d-flex justify-content-center">
+            <button (click)="saveChanges()"
+                    [disabled]="!form.valid"
+                    class="mx-5"
+                    color="primary"
+                    mat-stroked-button>Save
+            </button>
+            <button (click)="goBack()"
+                    class="mx-5"
+                    color="primary"
+                    mat-stroked-button>Back
+            </button>
+        </div>
     </form>
 </div>

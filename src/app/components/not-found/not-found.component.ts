@@ -36,6 +36,6 @@ export class NotFoundComponent implements OnInit {
             default:
                 userType = 'user';
         }
-        this.router.navigate([`${userType}/home`]);
+        this.router.navigate([`/home`]);
     }
 }

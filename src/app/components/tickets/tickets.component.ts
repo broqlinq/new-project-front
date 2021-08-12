@@ -12,7 +12,7 @@ import { TicketFilter } from "../../models/ticket-filter";
     styleUrls: ['./tickets.component.css']
 })
 export class TicketsComponent implements OnInit {
-    @Input() ticketFilter: TicketFilter = {} ;
+    @Input() ticketFilter: TicketFilter = {};
     readonly maxTickets: number = 5;
     currentPage: number = 0;
     totalPages: number = 1;
@@ -22,7 +22,8 @@ export class TicketsComponent implements OnInit {
     constructor(
         private alertService: AlertService,
         private authService: AuthService,
-        private ticketService: TicketService) {}
+        private ticketService: TicketService) {
+    }
 
     ngOnInit(): void {
         const type = UserType[UserType.ADMIN];
@@ -41,7 +42,7 @@ export class TicketsComponent implements OnInit {
                     this.currentPage = 0;
                 }
             }, _ => {
-                this.alertService.error('Failed to load tickets');
+                this.alertService.error('Failed to load tickets', { autoClose: true });
             });
     }
 
@@ -52,7 +53,7 @@ export class TicketsComponent implements OnInit {
 
     next(): void {
         if (this.currentPage >= this.totalPages - 1) {
-            this.alertService.warn('Maximum page reached, nothing to load', {autoClose: true});
+            this.alertService.warn('Maximum page reached, nothing to load', { autoClose: true });
             return;
         }
 
@@ -62,11 +63,15 @@ export class TicketsComponent implements OnInit {
 
     previous(): void {
         if (this.currentPage <= 0) {
-            this.alertService.warn('Minimum page reached, nothing to load', {autoClose: true});
+            this.alertService.warn('Minimum page reached, nothing to load', { autoClose: true });
             return;
         }
 
         this.currentPage--;
+        this.filterTickets(this.ticketFilter);
+    }
+
+    updateTable(): void {
         this.filterTickets(this.ticketFilter);
     }
 }

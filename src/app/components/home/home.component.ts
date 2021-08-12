@@ -39,4 +39,7 @@ export class HomeComponent implements OnInit {
         this.tickets?.setFilter(filter);
     }
 
+    updateTable(): void {
+        this.tickets?.setFilter(this.filter);
+    }
 }

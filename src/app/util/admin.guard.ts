@@ -7,27 +7,29 @@ import { AlertService } from "../services/alert.service";
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
     constructor(
         private alertService: AlertService,
-        private router: Router,
-        private authService: AuthService) {
+        private authService: AuthService,
+        private router: Router) {
     }
 
     canActivate(
         route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot):
-        Observable<boolean | UrlTree>
-        | Promise<boolean | UrlTree>
-        | boolean | UrlTree {
+        state: RouterStateSnapshot): Observable<boolean |
+        UrlTree> |
+        Promise<boolean | UrlTree> |
+        boolean | UrlTree {
+
         const user = this.authService.userData;
-        if (user) {
+
+        if (user && this.authService.isAdmin()) {
             return true;
         }
 
-        this.alertService.error('Please log in first', { autoClose: true });
-        this.router.navigate(['login'], { queryParams: { returnUrl: state.url} })
+        this.router.navigate(['home'])
+            .then(() => this.alertService.error('Unauthorized access: Page requires administrator privileges', { autoClose: true }))
         return false;
     }
 

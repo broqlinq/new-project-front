@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { TicketService } from "../../../services/ticket.service";
 import { Company } from "../../../models/company";
@@ -15,6 +15,7 @@ import { TicketForm } from "../../../models/ticket-form";
     styleUrls: ['./ticket-form.component.css']
 })
 export class TicketFormComponent implements OnInit {
+    @Output() ticketCreated: EventEmitter<Ticket> = new EventEmitter<Ticket>();
     form: FormGroup;
     companies: Company[] = [];
     flights: Flight[] = [];
@@ -35,18 +36,20 @@ export class TicketFormComponent implements OnInit {
         this.form = formBuilder.group(this.controlConfig);
     }
 
+    get f() {
+        return this.form
+    }
+
     ngOnInit(): void {
         this.loadCompanies()
         this.loadFlights()
     }
 
-    get f() { return this.form }
-
     loadCompanies(): void {
         this.companyService
             .fetchAllCompanies()
             .subscribe(companies => this.companies = companies,
-                    error => this.alertService.error(`Error fetching company list: ${error.message}`));
+                error => this.alertService.error(`Error fetching company list: ${error.message}`));
     }
 
     loadFlights(): void {
@@ -66,10 +69,11 @@ export class TicketFormComponent implements OnInit {
         console.log(ticket);
         this.ticketService
             .createTicket(ticket)
-            .subscribe(_ => {
-                this.alertService.success('Successfully created ticket!', { autoClose: true })
-                } , error => {
-                this.alertService.error(`Failed to create ticket: ${error.message}`)
+            .subscribe(ticket => {
+                this.alertService.success('Successfully created ticket!', { autoClose: true });
+                this.ticketCreated.emit(ticket);
+            }, error => {
+                this.alertService.error(`Failed to create ticket: ${error.message}`, { autoClose: true });
             });
     }
 }
