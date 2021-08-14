@@ -33,7 +33,7 @@
                 <button class="btn btn-sm btn-outline-danger mx-2" (click)="deleteTicket(t)">Delete</button>
             </td>
             <td *ngIf="!isAdmin" class="d-flex">
-                <button class="btn btn-sm btn-outline-info">Book</button>
+                <app-ticket-booking [ticket]="t" (onBookTickets)="bookTickets($event)"></app-ticket-booking>
             </td>
         </tr>
         </tbody>

@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { AlertComponent } from './components/alert/alert.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TicketTableComponent } from './components/ticket-table/ticket-table.component';
 import { AuthGuard } from "./util/auth.guard";
 import { HeaderComponent } from './components/header/header.component';
@@ -33,6 +33,7 @@ import { ErrorInterceptor } from "./util/error.interceptor";
 import { RequestInterceptor } from "./util/request.interceptor";
 import { TicketComponent } from './components/ticket/ticket.component';
 import { AdminGuard } from "./util/admin.guard";
+import { TicketBookingComponent } from './components/ticket-table/ticket-booking/ticket-booking.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -57,7 +58,8 @@ const routes: Routes = [
         HomeComponent,
         UserFormComponent,
         TicketFormComponent,
-        TicketComponent
+        TicketComponent,
+        TicketBookingComponent
     ],
     imports: [
         BrowserModule,
@@ -76,7 +78,8 @@ const routes: Routes = [
         MatCheckboxModule,
         MatRadioModule,
         MatTabsModule,
-        MatIconModule
+        MatIconModule,
+        FormsModule
     ],
     providers: [{
         provide: HTTP_INTERCEPTORS,

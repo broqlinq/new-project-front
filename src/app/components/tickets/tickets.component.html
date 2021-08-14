@@ -9,4 +9,4 @@
             (click)="next()"
     >Next</button>
 </div>
-<app-ticket-table [forCompany]="false" [isAdmin]="isAdmin" [tickets]="tickets" (ticketDeleted)="updateTable()"></app-ticket-table>
+<app-ticket-table [forCompany]="false" [isAdmin]="isAdmin" [tickets]="tickets" (ticketDeleted)="updateTable()" (ticketsBooked)="updateTable()"></app-ticket-table>

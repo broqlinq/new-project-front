@@ -49,14 +49,18 @@ export class TicketFormComponent implements OnInit {
         this.companyService
             .fetchAllCompanies()
             .subscribe(companies => this.companies = companies,
-                error => this.alertService.error(`Error fetching company list: ${error.message}`));
+                err => this.alertService.error(`Error fetching company list: ${err.error}`));
     }
 
     loadFlights(): void {
         this.flightService
             .fetchAllFlights()
             .subscribe(flights => this.flights = flights,
-                error => this.alertService.error(`Error fetching flight list: ${error.message}`));
+                err => this.alertService.error(`Error fetching flight list: ${err.error}`));
+    }
+
+    resetForm(): void {
+        this.form.reset();
     }
 
     createTicket(): void {
@@ -72,6 +76,7 @@ export class TicketFormComponent implements OnInit {
             .subscribe(ticket => {
                 this.alertService.success('Successfully created ticket!', { autoClose: true });
                 this.ticketCreated.emit(ticket);
+                this.resetForm();
             }, error => {
                 this.alertService.error(`Failed to create ticket: ${error.message}`, { autoClose: true });
             });

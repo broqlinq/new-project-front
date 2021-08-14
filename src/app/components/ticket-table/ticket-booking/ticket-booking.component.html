@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+    <div class="d-flex align-content-between justify-content-around" style="font-size: 12px">
+        <mat-form-field [style.width.%]="35" appearance="outline">
+            <input type="number" min="1" max="{{ticket?.count}}" formControlName="ticketCount" matInput required>
+        </mat-form-field>
+        <div class="mx-2 align-self-center">
+            <button mat-stroked-button
+                    [disabled]="form.invalid"
+                    color="primary"
+                    (click)="firePressed()">Book</button>
+        </div>
+    </div>
+</form>
+

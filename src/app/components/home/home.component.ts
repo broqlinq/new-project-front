@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
     }
 
     filterTickets(filter: TicketFilter) {
+        this.filter = filter;
         this.tickets?.setFilter(filter);
     }
 

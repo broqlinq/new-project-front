@@ -37,6 +37,11 @@ export class TicketsComponent implements OnInit {
             .filterTickets(this.currentPage, this.maxTickets, null, filter)
             .subscribe(page => {
                 this.tickets = page.content;
+                if (page.totalPages > 0 && this.currentPage >= page.totalPages) {
+                    this.currentPage = page.totalPages - 1;
+                    this.filterTickets(this.ticketFilter);
+                    return;
+                }
                 this.totalPages = page.totalPages;
                 if (page.totalPages === 0) {
                     this.currentPage = 0;
