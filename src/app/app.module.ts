@@ -37,6 +37,7 @@ import { TicketBookingComponent } from './components/ticket-table/ticket-booking
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { UserGuard } from "./util/user.guard";
 import { CompanyComponent } from './components/company/company.component';
+import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -66,7 +67,8 @@ const routes: Routes = [
         TicketComponent,
         TicketBookingComponent,
         BookingsComponent,
-        CompanyComponent
+        CompanyComponent,
+        CompanyFormComponent
     ],
     imports: [
         BrowserModule,

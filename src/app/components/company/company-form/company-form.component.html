@@ -1,0 +1,20 @@
+<div>
+    <h3 class="mt-4">{{title}}</h3>
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Company name</mat-label>
+            <input formControlName="companyName" matInput required>
+            <mat-error>Company name is required</mat-error>
+        </mat-form-field>
+        <button [disabled]="!form.valid || nameUnchanged()"
+                (click)="onSubmit()"
+                mat-stroked-button
+                color="primary"
+                class="ml-5">{{buttonText}}</button>
+        <button *ngIf="altButtonText"
+                mat-stroked-button
+                color="warn"
+                class="ml-5"
+                (click)="onAltSubmit()">{{altButtonText}}</button>
+    </form>
+</div>

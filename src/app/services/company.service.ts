@@ -12,7 +12,27 @@ export class CompanyService {
     constructor(private http: HttpClient) {
     }
 
+    fetchByName(companyName: string): Observable<Company> {
+        return this.http.post<Company>(this.baseUrl + '/get', companyName);
+    }
+
+    createCompany(company: Company): Observable<Company> {
+        console.log(`from create company:`)
+        console.log(company)
+        return this.http.post<Company>(this.baseUrl, company);
+    }
+
+    updateCompany(company: Company): Observable<Company> {
+        console.log(`from update company:`)
+        console.log(company)
+        return this.http.put<Company>(this.baseUrl, company);
+    }
+
     fetchAllCompanies(): Observable<Company[]> {
         return this.http.get<Company[]>(this.baseUrl + '/all');
+    }
+
+    deleteCompany(company: Company): Observable<Company> {
+        return this.http.delete<Company>(this.baseUrl, { body: company });
     }
 }

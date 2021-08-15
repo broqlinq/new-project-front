@@ -1,4 +1,25 @@
 <div *ngIf="!isAdmin()">
     <app-ticket-filter (onFilter)="filterTickets($event)"></app-ticket-filter>
 </div>
+<div *ngIf="isAdmin()">
+    <mat-tab-group>
+        <mat-tab label="Companies">
+            <app-company-form
+                    title="Create new company"
+                    buttonText="Create"
+                    (submitCompany)="createCompany($event)"></app-company-form>
+        </mat-tab>
+        <mat-tab label="Settings">
+            <app-company-form
+                    #settings
+                    title="Edit company info"
+                    [company]="companyObj"
+                    buttonText="Update"
+                    altButtonText="Delete company"
+                    (submitCompany)="updateCompany($event)"
+                    (altSubmitCompany)="deleteCompany($event)"></app-company-form>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<hr>
 <app-tickets [forCompany]="true" [company]="company"></app-tickets>
