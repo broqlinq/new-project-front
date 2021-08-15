@@ -7,6 +7,7 @@ import { map } from "rxjs/operators";
 import { TicketFilter } from "../models/ticket-filter";
 import { TicketForm } from "../models/ticket-form";
 import { TicketUpdateForm } from "../models/ticket-update-form";
+import { FilterRequest } from "../models/filter-request";
 
 @Injectable({
     providedIn: 'root'
@@ -56,8 +57,8 @@ export class TicketService {
 
     filterTickets(page: number, count: number, company: string | null, filter: TicketFilter): Observable<Page<Ticket>> {
         let params = new HttpParams({ fromObject: { page, count } })
-        if (company) {
-            params = params.set('company', company)
+        if (company && company.trim() !== '') {
+            params = params.set('company', encodeURIComponent(company.trim()))
         }
         if (filter.oneWay !== undefined && filter.oneWay !== null) {
             params = params.set('oneWay', filter.oneWay);
@@ -69,15 +70,30 @@ export class TicketService {
             params = params.set('destination', filter.destination);
         }
         if (filter.departureDate) {
-            params = params.set('departureDate', filter.departureDate.toDateString());
+            params = params.set('departureDate', encodeURIComponent(filter.departureDate.toUTCString()));
         }
         if (filter.returnDate) {
-            params = params.set('returnDate', filter.returnDate.toDateString());
+            params = params.set('returnDate', encodeURIComponent(filter.returnDate.toUTCString()));
         }
+        console.log(params)
         return this.http.get<Page<Ticket>>(this.baseUrl + '/filter', { params })
             .pipe(map(page => {
                 // console.log(JSON.stringify(page));
                 return page;
             }));
+    }
+
+    _filterTickets(page: number, count: number, filter: TicketFilter, company?: string): Observable<Page<Ticket>> {
+        const _filter: FilterRequest = {
+            origin: filter.origin,
+            destination: filter.destination,
+            departureDate: filter.departureDate,
+            returnDate: filter.returnDate,
+            oneWay: filter.oneWay,
+            company: company?.trim() === '' ? undefined : company?.trim(),
+            page: page,
+            count: count
+        };
+        return this.http.post<Page<Ticket>>(this.baseUrl + '/filter', _filter);
     }
 }

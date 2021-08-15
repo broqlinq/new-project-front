@@ -9,10 +9,9 @@ import { map } from "rxjs/operators";
     providedIn: 'root'
 })
 export class BookingService {
-    private readonly baseUrl: string = "http://localhost:8080/booking"
-
-    private readonly bookingsSubject: BehaviorSubject<Booking[]>;
     readonly bookings: Observable<Booking[]>;
+    private readonly baseUrl: string = "http://localhost:8080/booking"
+    private readonly bookingsSubject: BehaviorSubject<Booking[]>;
 
     constructor(
         private authService: AuthService,
@@ -25,10 +24,15 @@ export class BookingService {
         let params = new HttpParams({ fromObject: { username } });
         return this.http.get<Booking[]>(this.baseUrl, { params })
             .pipe(map(bookings => {
-                console.log('updating bookings subject...');
+                // console.log('updating bookings subject...');
                 this.bookingsSubject.next(bookings);
                 return bookings;
             }))
+    }
+
+    buyTickets(bookings: Booking[]): Observable<Booking[]> {
+        const ids = bookings.map(b => b.id);
+        return this.http.post<Booking[]>(this.baseUrl + '/buy', ids);
     }
 
     createBooking(username: string, ticketId: number, count: number): Observable<Booking> {
@@ -36,10 +40,15 @@ export class BookingService {
             .pipe(map(booking => {
                 const user = this.authService.userData;
                 if (user) {
-                    console.log('created, now fetching...')
+                    // console.log('created, now fetching...')
                     this.fetchUserBookings(user.username).subscribe();
                 }
                 return booking;
             }));
+    }
+
+    deleteBooking(id: number): Observable<Booking> {
+        let params = new HttpParams({ fromObject: { id } });
+        return this.http.delete<Booking>(this.baseUrl, { params });
     }
 }

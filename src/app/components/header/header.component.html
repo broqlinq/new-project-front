@@ -1,15 +1,22 @@
-<div class="header container-fluid header-decor fixed-top">
-    <div class="d-flex justify-content-end">
-        <span class="header-item align-self-center" style="font-size: 12pt">{{user?.username}}</span>
-        <span class="header-item align-self-center" style="font-size: 12pt">({{user?.type}})</span>
-        <span class="header-item align-self-center">|</span>
-        <div class="d-flex" *ngIf="!isAdmin()">
-            <button mat-icon-button color="accent" aria-label="Booked tickets" (click)="toBookings()">
-                <mat-icon>airplane_ticket</mat-icon>
+<div class="header container-fluid header-decor fixed-top justify-content-between">
+    <div class="d-flex justify-content-between">
+        <div>
+            <button (click)="goHome()" aria-label="Home page" mat-icon-button>
+                <mat-icon>home</mat-icon>
             </button>
-            <span class="align-self-center mx-1" style="font-size: 10pt">{{userBookingCount}}</span>
-            <span class="header-item align-self-center">|</span>
         </div>
-        <a class="btn btn-link btn-logout" (click)="logOut()">Log Out</a>
+        <div class="d-flex justify-content-end">
+            <span class="header-item align-self-center" style="font-size: 12pt">{{user?.username}}</span>
+            <span class="header-item align-self-center" style="font-size: 12pt">({{user?.type}})</span>
+            <span class="header-item align-self-center">|</span>
+            <div *ngIf="!isAdmin()" class="d-flex">
+                <button (click)="toBookings()" aria-label="Booked tickets" color="accent" mat-icon-button>
+                    <mat-icon>airplane_ticket</mat-icon>
+                </button>
+                <span class="align-self-center mx-1" style="font-size: 10pt">{{userBookingCount}}</span>
+                <span class="header-item align-self-center">|</span>
+            </div>
+            <a (click)="logOut()" class="btn btn-link btn-logout">Log Out</a>
+        </div>
     </div>
 </div>

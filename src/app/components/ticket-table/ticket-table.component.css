@@ -6,3 +6,12 @@
 .material-icons.false {
     color: red;
 }
+
+.link {
+    color: #2b4979;
+    font-style: oblique;
+}
+
+.link:hover {
+    cursor: pointer;
+}

@@ -64,4 +64,10 @@ export class TicketTableComponent implements OnInit {
                 this.alertService.warn(`Failed to delete ticket: ${err.error}`, { autoClose: true });
             })
     }
+
+    toCompanyPage(company: string): void {
+        console.log(company);
+        const _company = company.split(' ').join('-')
+        this.router.navigate([`company/${_company}`]);
+    }
 }

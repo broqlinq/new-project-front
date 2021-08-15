@@ -34,11 +34,16 @@ import { RequestInterceptor } from "./util/request.interceptor";
 import { TicketComponent } from './components/ticket/ticket.component';
 import { AdminGuard } from "./util/admin.guard";
 import { TicketBookingComponent } from './components/ticket-table/ticket-booking/ticket-booking.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
+import { UserGuard } from "./util/user.guard";
+import { CompanyComponent } from './components/company/company.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: '/login' },
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'company/:company', component: CompanyComponent, canActivate: [AuthGuard] },
+    { path: 'bookings', component: BookingsComponent, canActivate: [AuthGuard, UserGuard]},
     { path: 'ticket/:id', component: TicketComponent, canActivate: [AuthGuard, AdminGuard]},
     { path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
     { path: '**', component: NotFoundComponent }
@@ -59,7 +64,9 @@ const routes: Routes = [
         UserFormComponent,
         TicketFormComponent,
         TicketComponent,
-        TicketBookingComponent
+        TicketBookingComponent,
+        BookingsComponent,
+        CompanyComponent
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,4 @@
+<div *ngIf="!isAdmin()">
+    <app-ticket-filter (onFilter)="filterTickets($event)"></app-ticket-filter>
+</div>
+<app-tickets [forCompany]="true" [company]="company"></app-tickets>

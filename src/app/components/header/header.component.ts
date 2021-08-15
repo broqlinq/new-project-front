@@ -4,7 +4,6 @@ import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { BookingService } from "../../services/booking.service";
-import { map } from "rxjs/operators";
 import { Booking } from "../../models/booking";
 
 @Component({
@@ -61,6 +60,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     toBookings(): void {
+        this.router.navigate(['bookings']);
+    }
 
+    goHome() {
+        this.router.navigate(['home']);
     }
 }

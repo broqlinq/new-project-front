@@ -13,6 +13,8 @@ import { TicketFilter } from "../../models/ticket-filter";
 })
 export class TicketsComponent implements OnInit {
     @Input() ticketFilter: TicketFilter = {};
+    @Input() forCompany: boolean = false;
+    @Input() company: string = '';
     readonly maxTickets: number = 5;
     currentPage: number = 0;
     totalPages: number = 1;
@@ -30,11 +32,12 @@ export class TicketsComponent implements OnInit {
         const user = this.authService.userData;
         this.isAdmin = user.type.toString() === type;
         this.filterTickets(this.ticketFilter);
+        console.log(`from table component, for company: ${this.forCompany}`);
     }
 
     filterTickets(filter: TicketFilter): void {
         this.ticketService
-            .filterTickets(this.currentPage, this.maxTickets, null, filter)
+            ._filterTickets(this.currentPage, this.maxTickets, filter, this.company)
             .subscribe(page => {
                 this.tickets = page.content;
                 if (page.totalPages > 0 && this.currentPage >= page.totalPages) {
